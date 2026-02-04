@@ -1,0 +1,508 @@
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #535bf2;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+#app {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.vanilla:hover {
+  filter: drop-shadow(0 0 2em #f7df1eaa);
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+button:hover {
+  border-color: #646cff;
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+/* Main screen background and layout */
+.main-screen {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.bg {
+  position: absolute;
+  inset: 0;
+  /* background-image set inline in HTML to avoid static resolution issues */
+  background-repeat: no-repeat;
+  background-size: cover; /* ensure it fills the screen */
+  background-position: center center; /* default centred focal point */
+  background-attachment: scroll; /* avoid fixed attachment on mobile */
+  filter: brightness(0.45) blur(0.6px);
+  z-index: 0;
+}
+
+/* Background image element (img) to allow object-fit/object-position control on mobile */
+.bg-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* similar to background-size: cover but controllable via object-position */
+  object-position: center center;
+  display: block;
+  filter: inherit; /* use parent's filter for consistent effect */
+  transform: translateZ(0); /* promote to its own layer to improve rendering */
+}
+
+/* On narrow screens prefer the top/upper area of the image so key content isn't cropped */
+@media (max-width: 520px), (orientation: portrait) {
+  .bg {
+    background-position: center 20%; /* nudges focal point up so top content is visible */
+    background-size: cover; /* still cover to fill the viewport */
+    filter: brightness(0.62) blur(0px); /* reduce blur on small screens for clarity and brighten a bit */
+  }
+  .content { padding: 1rem; }
+  .bg-image {
+    object-position: center 20%; /* nudge upwards on phones so top area remains visible */
+  }
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 2rem;
+}
+
+.game-title {
+  margin: 0 0 1rem 0;
+  font-size: 4rem;
+  letter-spacing: 1px;
+}
+
+/* Shimmer animation for title */
+.shimmer {
+  display: inline-block;
+  background: linear-gradient(90deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.9) 50%, rgba(255,255,255,0.12) 100%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shimmer 3s linear infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 1.25rem;
+}
+
+button.primary {
+  background: linear-gradient(90deg,#ff8a00,#ff5e62);
+  color: white;
+  border: none;
+  padding: 0.8rem 1.4rem;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+}
+
+button.primary:hover { transform: translateY(-2px); }
+
+/* Instructions screen */
+.instructions-screen {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 2rem;
+}
+.instructions {
+  max-width: 720px;
+  color: #ddd;
+  font-size: 1.15rem;
+}
+
+/* Modal styles */
+.modal.hidden { display: none; }
+.modal {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.5);
+  z-index: 9999;
+}
+
+.modal-panel {
+  background: #1b1b1b;
+  padding: 1.25rem 1.5rem;
+  width: 320px;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+  color: #fff;
+  position: relative;
+}
+
+.modal-close {
+  position: absolute;
+  right: 8px;
+  top: 6px;
+  background: transparent;
+  border: none;
+  font-size: 1.25rem;
+  color: #aaa;
+  cursor: pointer;
+}
+
+.setting {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0.6rem 0;
+}
+
+.contact {
+  width: 100%;
+  padding: 0.6rem;
+  border-radius: 8px;
+  background: transparent;
+  border: 1px solid #333;
+  color: #ddd;
+  cursor: pointer;
+}
+
+/* Focal picker overlay and marker */
+.focal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100000;
+  background: rgba(0,0,0,0.25);
+  touch-action: none;
+}
+.focal-instructions {
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0,0,0,0.6);
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  pointer-events: none;
+}
+.focal-done-row {
+  position: absolute;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 0.5rem;
+}
+.focal-done-row button {
+  padding: 0.6rem 0.9rem;
+  font-size: 0.95rem;
+  border-radius: 10px;
+  border: none;
+  background: rgba(255,255,255,0.1);
+  color: #fff;
+}
+.focal-done-row button#focalReset { background: rgba(255,255,255,0.06); }
+
+.focal-marker {
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  background: rgba(255,255,255,0.12);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.4);
+  display: none;
+  pointer-events: none;
+}
+
+/* Ensure overlay controls look good on mobile specifically */
+@media (max-width: 520px) {
+  .focal-instructions { top: 12px; font-size: 1rem; padding: 10px 14px; }
+  .focal-done-row { bottom: 20px; }
+  .focal-done-row button { padding: 0.85rem 1rem; font-size: 1rem; border-radius: 12px; }
+  .focal-marker { width: 34px; height: 34px; left: 0; top: 0; }
+}
+
+@media (max-width: 520px) {
+  /* General layout tweaks */
+  html, body { height: 100%; }
+  body {
+    display: block; /* avoid unexpected flex behavior on small screens */
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  }
+
+  #app {
+    padding: 0.75rem;
+    max-width: 100%;
+  }
+
+  /* Make the background image behave predictably on phones */
+  .main-screen { align-items: flex-start; }
+  .bg, .bg-image { position: absolute; top: 0; left: 0; right: 0; bottom: 0; }
+  .bg-image {
+    object-fit: cover;
+    object-position: center 18%; /* prioritize upper area */
+    width: 100%;
+    height: 100%;
+    filter: brightness(0.65); /* slightly brighter for legibility */
+  }
+
+  .content {
+    position: relative;
+    z-index: 2;
+    padding: 1rem;
+    margin-top: 14vh; /* push content below the top to reveal background focal */
+    box-sizing: border-box;
+    width: 100%;
+  }
+
+  .game-title {
+    font-size: 2.2rem;
+    margin: 0 0 0.4rem 0;
+    line-height: 1.05;
+    text-wrap: balance;
+  }
+
+  /* Buttons stacked and large for touch */
+  .buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: stretch;
+    margin-top: 0.75rem;
+    padding: 0.25rem 0;
+  }
+
+  button, button.primary {
+    width: 100%;
+    min-height: 56px; /* comfortable touch target */
+    padding: 0.9rem 1rem;
+    font-size: 1.05rem;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.36);
+    -webkit-tap-highlight-color: rgba(0,0,0,0.05);
+  }
+
+  button.primary { background: linear-gradient(90deg,#ff8a00,#ff5e62); color: #fff; border: none; }
+  button:not(.primary) { background: rgba(255,255,255,0.06); color: #fff; border: 1px solid rgba(255,255,255,0.06); }
+
+  /* Make instructions text easier to read on phones */
+  .instructions-screen { padding: 1rem; gap: 0.5rem; }
+  .instructions { font-size: 1rem; line-height: 1.45; padding: 0 0.5rem; }
+
+  /* Modal becomes full-width bottom sheet style for phones */
+  .modal {
+    align-items: flex-end;
+    justify-content: center;
+  }
+  .modal-panel {
+    width: 100%;
+    max-width: 720px;
+    border-bottom-left-radius: 0.75rem;
+    border-bottom-right-radius: 0.75rem;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    margin: 0;
+    padding: 1rem 1rem 1.5rem 1rem;
+    box-sizing: border-box;
+  }
+  .modal-close { right: 12px; top: 10px; }
+
+  /* Make toggles easy to tap */
+  .setting { padding: 0.4rem 0.2rem; }
+  .setting label { font-size: 1rem; }
+  .setting input[type="checkbox"] { transform: scale(1.3); width: 1.2rem; height: 1.2rem; }
+
+  .contact { padding: 0.9rem; font-size: 1rem; }
+
+  /* Ensure any images inside content scale properly */
+  img { max-width: 100%; height: auto; display: block; }
+
+  /* Adjust title shimmer to be slightly slower and subtler on phones */
+  .shimmer { animation-duration: 4s; opacity: 0.95; }
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+}
+
+/* Exit button (fixed at bottom) */
+.exit-button {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 14px;
+  z-index: 10002;
+  min-width: 160px;
+  padding: 0.9rem 1rem;
+  border-radius: 12px;
+  background: linear-gradient(90deg,#ff8a00,#ff5e62);
+  color: #fff;
+  border: none;
+  font-size: 1rem;
+  box-shadow: 0 8px 26px rgba(0,0,0,0.35);
+  text-align: center;
+}
+
+/* Exit modal tweaks */
+.exit-modal-panel {
+  max-width: 360px;
+  width: calc(100% - 32px);
+  padding: 1rem;
+}
+.exit-modal-content h3 { margin: 0 0 0.5rem 0; }
+.exit-modal-actions { display: flex; gap: 0.5rem; justify-content: center; margin-top: 0.5rem; }
+.exit-yes {
+  background: #ff4b4b; /* red */
+  color: white;
+  border: none;
+  padding: 0.6rem 0.9rem;
+  border-radius: 10px;
+}
+.exit-no {
+  background: #3ecf8e; /* green */
+  color: white;
+  border: none;
+  padding: 0.6rem 0.9rem;
+  border-radius: 10px;
+}
+
+.howto-screen {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+.howto-image {
+  width: 100%;
+  max-width: 720px;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.45);
+}
+.howto-text {
+  color: #eee;
+  font-size: 1.05rem;
+  max-width: 720px;
+  text-align: center;
+  padding: 0 0.5rem;
+}
+
+.howto-screen { padding: 0; }
+.howto-bg {
+  min-height: 100vh;
+  background-size: cover;
+  background-position: center center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.howto-overlay {
+  background: rgba(0,0,0,0.45);
+  padding: 1.25rem;
+  border-radius: 12px;
+  max-width: 92%;
+  text-align: center;
+}
+.howto-text {
+  color: #fff;
+  font-size: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+@media (max-width:520px) {
+  .howto-overlay { padding: 0.9rem; }
+  .howto-text { font-size: 1.05rem; }
+  .howto-bg { background-position: center 25%; }
+}
+
