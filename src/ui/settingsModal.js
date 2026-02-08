@@ -1,7 +1,7 @@
 export function createSettingsModalHTML() {
   return `
     <div id="settingsModal" class="modal hidden" aria-hidden="true">
-      <div class="modal-panel">
+      <div class="modal-panel" role="dialog" aria-modal="true" tabindex="-1">
         <button class="modal-close" id="closeModal" aria-label="Close settings">&times;</button>
         <h2>Settings</h2>
         <div class="setting"><label for="musicToggle">Music</label><input type="checkbox" id="musicToggle" /></div>

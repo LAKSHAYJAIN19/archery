@@ -13,6 +13,10 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+* {
+  box-sizing: border-box;
+}
+
 a {
   font-weight: 500;
   color: #646cff;
@@ -26,6 +30,8 @@ body {
   margin: 0;
   display: flex;
   place-items: center;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  background: #000;
   min-width: 320px;
   min-height: 100vh;
 }
@@ -84,49 +90,105 @@ button:focus-visible {
 
 /* Main screen background and layout */
 .main-screen {
+  /*min-height: 100vh;*/
+  /*display: flex;*/
+  /*align-items: center;*/
+  /*justify-content: center;*/
   position: relative;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  width: 100%;
+  height: 100vh;
+  max-width: 420px;
+  margin: 0 auto;
   overflow: hidden;
 }
 
+@media (min-width: 768px) {
+  .exit-button {
+    width: auto;
+    padding: 10px 18px;
+    max-width: 280px;
+    height:40px;
+    font-size: 15px;
+
+  }
+}
+
+@media (max-width: 520px), (orientation: portrait) {
+  .bg {
+    background-position: center 20%;
+    filter: brightness(0.62) blur(0px);
+  }
+
+  .bg-image {
+    object-position: center 20%;
+  }
+
+  .content {
+    padding: 1rem;
+  }
+
+  .exit-button {
+    width: calc(100% - 32px);  /* full-width bottom-style button */
+    left: 16px;
+    right: 16px;
+    top: auto;
+    bottom: 16px;
+    border-radius: 14px;
+  }
+}
+
+/* ===== BACKGROUND WRAPPER ===== */
 .bg {
   position: absolute;
   inset: 0;
-  /* background-image set inline in HTML to avoid static resolution issues */
-  background-repeat: no-repeat;
-  background-size: cover; /* ensure it fills the screen */
-  background-position: center center; /* default centred focal point */
-  background-attachment: scroll; /* avoid fixed attachment on mobile */
-  filter: brightness(0.45) blur(0.6px);
+  overflow: hidden;              /* 🔒 CLAMPS children */
   z-index: 0;
+
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+  background-attachment: scroll;
+
+  filter: brightness(0.45) blur(0.6px);
 }
 
-/* Background image element (img) to allow object-fit/object-position control on mobile */
+/* ===== BACKGROUND IMAGE ===== */
 .bg-image {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* similar to background-size: cover but controllable via object-position */
+  object-fit: cover;
   object-position: center center;
   display: block;
-  filter: inherit; /* use parent's filter for consistent effect */
-  transform: translateZ(0); /* promote to its own layer to improve rendering */
+
+  filter: inherit;
+  transform: translateZ(0);
 }
 
-/* On narrow screens prefer the top/upper area of the image so key content isn't cropped */
-@media (max-width: 520px), (orientation: portrait) {
-  .bg {
-    background-position: center 20%; /* nudges focal point up so top content is visible */
-    background-size: cover; /* still cover to fill the viewport */
-    filter: brightness(0.62) blur(0px); /* reduce blur on small screens for clarity and brighten a bit */
-  }
-  .content { padding: 1rem; }
-  .bg-image {
-    object-position: center 20%; /* nudge upwards on phones so top area remains visible */
-  }
+/* ===== EXIT BUTTON (BASE) ===== */
+.exit-button {
+  position: absolute;
+
+  height: 44px;
+  min-width: 44px;
+
+  padding: 0 16px;
+  border-radius: 12px;
+
+  font-size: 16px;
+  font-weight: 600;
+
+  background: rgba(0, 0, 0, 0.65);
+  color: #fff;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  z-index: 5;
 }
+
+
+
 
 .content {
   position: relative;
@@ -161,7 +223,7 @@ button:focus-visible {
   display: flex;
   gap: 1rem;
   justify-content: center;
-  margin-top: 1.25rem;
+  margin-top: 12px;
 }
 
 button.primary {
@@ -172,7 +234,8 @@ button.primary {
   box-shadow: 0 6px 18px rgba(0,0,0,0.35);
 }
 
-button.primary:hover { transform: translateY(-2px); }
+button.primary:hover { transform: scale(1.05);
+  box-shadow: 0 0 0 2px #fff; }
 
 /* Instructions screen */
 .instructions-screen {
@@ -315,7 +378,6 @@ button.primary:hover { transform: translateY(-2px); }
   }
 
   /* Make the background image behave predictably on phones */
-  .main-screen { align-items: flex-start; }
   .bg, .bg-image { position: absolute; top: 0; left: 0; right: 0; bottom: 0; }
   .bg-image {
     object-fit: cover;
@@ -341,6 +403,11 @@ button.primary:hover { transform: translateY(-2px); }
     text-wrap: balance;
   }
 
+  button {
+    border: none;
+    outline: none;
+  }
+
   /* Buttons stacked and large for touch */
   .buttons {
     display: flex;
@@ -351,14 +418,18 @@ button.primary:hover { transform: translateY(-2px); }
     padding: 0.25rem 0;
   }
 
-  button, button.primary {
+  button.primary {
     width: 100%;
     min-height: 56px; /* comfortable touch target */
-    padding: 0.9rem 1rem;
-    font-size: 1.05rem;
-    border-radius: 12px;
     box-shadow: 0 6px 18px rgba(0,0,0,0.36);
     -webkit-tap-highlight-color: rgba(0,0,0,0.05);
+    padding: 12px 20px;
+    font-size: 16px;
+    border-radius: 10px;
+    background: #1e90ff;
+    color: #fff;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
   }
 
   button.primary { background: linear-gradient(90deg,#ff8a00,#ff5e62); color: #fff; border: none; }
@@ -415,44 +486,132 @@ button.primary:hover { transform: translateY(-2px); }
 
 /* Exit button (fixed at bottom) */
 .exit-button {
-  position: fixed;
+  position: absolute;
+  bottom: 16px;
   left: 50%;
   transform: translateX(-50%);
-  bottom: 14px;
-  z-index: 10002;
-  min-width: 160px;
-  padding: 0.9rem 1rem;
-  border-radius: 12px;
-  background: linear-gradient(90deg,#ff8a00,#ff5e62);
+
+  width: calc(100% - 48px);   /* 👈 constrained width */
+  max-width: 360px;           /* 👈 desktop clamp */
+
+  height: 44px;
+  padding: 0 16px;
+
+  border-radius: 14px;
+  font-size: 16px;
+  font-weight: 600;
+
+  background: linear-gradient(90deg, #ff9800, #ff6f61);
   color: #fff;
-  border: none;
-  font-size: 1rem;
-  box-shadow: 0 8px 26px rgba(0,0,0,0.35);
-  text-align: center;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  z-index: 5;
 }
 
 /* Exit modal tweaks */
 .exit-modal-panel {
+  position:relative;
+  pointer-events: auto;
   max-width: 360px;
   width: calc(100% - 32px);
   padding: 1rem;
+  z-index: 1001 ;
 }
 .exit-modal-content h3 { margin: 0 0 0.5rem 0; }
 .exit-modal-actions { display: flex; gap: 0.5rem; justify-content: center; margin-top: 0.5rem; }
-.exit-yes {
-  background: #ff4b4b; /* red */
-  color: white;
-  border: none;
-  padding: 0.6rem 0.9rem;
-  border-radius: 10px;
-}
+/*.exit-yes {*/
+/*  position : relative;*/
+/*  !*background: #ff4b4b  #d32f2f; !* red *!*!*/
+/*  background-color: #ff4b4b;*/
+/*  color: white;*/
+/*  border: none;*/
+/*  padding: 0.6rem 0.9rem;*/
+/*  border-radius: 10px;*/
+/*  z-index: 1002;*/
+/*  pointer-events: auto;*/
+/*}*/
+/*.exit-no {*/
+/*  position: relative;*/
+/*  !*background: #3ecf8e #2e7d32; !* green *!*!*/
+/*  background-color: #3ecf8e;*/
+/*  color: white;*/
+/*  border: none;*/
+/*  padding: 0.6rem 0.9rem;*/
+/*  border-radius: 10px;*/
+/*  z-index: 1002;*/
+/*  pointer-events: auto;*/
+/*}*/
+
+/*.exit-yes:focus-visible,*/
+/*.exit-no:focus-visible {*/
+/*  outline: none;*/
+/*  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.6);*/
+/*  border-radius: 8px;*/
+/*}*/
+
+/*.exit-yes:hover,*/
+/*.exit-yes:active,*/
+/*.exit-yes:focus-visible {*/
+/*  box-shadow: 0 0 0 2px #ffffff;*/
+/*  transform: scale(0.97);*/
+/*}*/
+
+/*.exit-no:hover,*/
+/*.exit-no:active,*/
+/*.exit-no:focus-visible {*/
+/*  box-shadow: 0 0 0 2px #ffffff;*/
+/*  transform: scale(0.97);*/
+/*}*/
+
+
+.exit-yes,
 .exit-no {
-  background: #3ecf8e; /* green */
-  color: white;
+  min-width: 96px;
+  padding: 14px 22px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 12px;
   border: none;
-  padding: 0.6rem 0.9rem;
-  border-radius: 10px;
+  color: #fff;
+
+  outline: none;
+  touch-action: manipulation;
+  pointer-events: auto;
+
+  transition:
+          box-shadow 0.15s ease,
+          transform 0.1s ease,
+          background-color 0.15s ease;
 }
+
+/* YES = RED */
+.exit-yes {
+  background-color: #d32f2f;
+}
+
+/* NO = GREEN */
+.exit-no {
+  background-color: #2e7d32;
+}
+
+/* Desktop hover */
+.exit-yes:hover,
+.exit-no:hover,
+
+  /* Mobile tap */
+.exit-yes:active,
+.exit-no:active,
+
+  /* Keyboard / programmatic focus */
+.exit-yes:focus-visible,
+.exit-no:focus-visible {
+  box-shadow: 0 0 0 2px #ffffff;
+  transform: scale(0.97);
+}
+
 
 .howto-screen {
   min-height: 100vh;
@@ -505,4 +664,166 @@ button.primary:hover { transform: translateY(-2px); }
   .howto-text { font-size: 1.05rem; }
   .howto-bg { background-position: center 25%; }
 }
+
+.exit-modal-actions button {
+  min-width: 96px;
+  padding: 12px 20px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 12px;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition:
+          box-shadow 0.15s ease,
+          transform 0.1s ease,
+          background-color 0.15s ease;
+
+}
+#exitModal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  pointer-events: auto;
+}
+
+.exit-button.disabled {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.difficulty-screen {
+  position: relative;
+  /*width: 100%;*/
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.difficulty-bg {
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  /*background-position: center;*/
+  background-position: center center;
+  position: absolute;
+  inset:0;
+  filter: brightness(0.85);
+  z-index: 0;
+  background-repeat: no-repeat ; //new line
+}
+
+.difficulty-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(220, 220, 220, 0.75); /* 👈 was too opaque before */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+  box-sizing: border-box;
+}
+
+.difficulty-overlay h2 {
+  margin-bottom: 16px;
+  font-size: 22px;
+}
+
+.difficulty-option {
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 12px;
+  padding: 12px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.difficulty-option:hover {
+  transform: scale(1.03);
+}
+
+.difficulty-option h3 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.difficulty-option p {
+  margin: 4px 0 0;
+  font-size: 14px;
+  opacity: 0.8;
+}
+.difficulty-title {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 16px;
+  color: #222;
+}
+
+.difficulty-options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  max-width: 420px;
+  margin-bottom: 16px;
+}
+
+.difficulty-btn {
+  background: #fff;
+  border-radius: 12px;
+  padding: 12px;
+  border: 2px solid rgba(0,0,0,0.15);
+  font-size: 16px;
+  text-align: left;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.difficulty-btn span {
+  display: block;
+  font-size: 13px;
+  color: #222;
+}
+
+.difficulty-btn:hover {
+  transform: scale(1.03);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.25);
+  border-color: #1e90ff;
+}
+.difficulty-overlay .buttons {
+  margin-top: 10px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.difficulty-card {
+  position: relative;
+  z-index: 1;
+  background: rgba(245, 245, 245, 0);
+  backdrop-filter: blur(3px);
+  border-radius: 16px;
+  padding: 20px;
+  width: 92%;
+  max-width: 420px;
+  margin: auto;
+  top: 50%;
+  transform: translateY(-50%);
+  text-align: center;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.35);
+}
+.difficulty-content {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
 
