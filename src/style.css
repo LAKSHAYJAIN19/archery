@@ -491,8 +491,8 @@ button.primary:hover { transform: scale(1.05);
   left: 50%;
   transform: translateX(-50%);
 
-  width: calc(100% - 48px);   /* 👈 constrained width */
-  max-width: 360px;           /* 👈 desktop clamp */
+  width: calc(100% - 48px);  
+  max-width: 360px;           
 
   height: 44px;
   padding: 0 16px;
@@ -522,50 +522,6 @@ button.primary:hover { transform: scale(1.05);
 }
 .exit-modal-content h3 { margin: 0 0 0.5rem 0; }
 .exit-modal-actions { display: flex; gap: 0.5rem; justify-content: center; margin-top: 0.5rem; }
-/*.exit-yes {*/
-/*  position : relative;*/
-/*  !*background: #ff4b4b  #d32f2f; !* red *!*!*/
-/*  background-color: #ff4b4b;*/
-/*  color: white;*/
-/*  border: none;*/
-/*  padding: 0.6rem 0.9rem;*/
-/*  border-radius: 10px;*/
-/*  z-index: 1002;*/
-/*  pointer-events: auto;*/
-/*}*/
-/*.exit-no {*/
-/*  position: relative;*/
-/*  !*background: #3ecf8e #2e7d32; !* green *!*!*/
-/*  background-color: #3ecf8e;*/
-/*  color: white;*/
-/*  border: none;*/
-/*  padding: 0.6rem 0.9rem;*/
-/*  border-radius: 10px;*/
-/*  z-index: 1002;*/
-/*  pointer-events: auto;*/
-/*}*/
-
-/*.exit-yes:focus-visible,*/
-/*.exit-no:focus-visible {*/
-/*  outline: none;*/
-/*  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.6);*/
-/*  border-radius: 8px;*/
-/*}*/
-
-/*.exit-yes:hover,*/
-/*.exit-yes:active,*/
-/*.exit-yes:focus-visible {*/
-/*  box-shadow: 0 0 0 2px #ffffff;*/
-/*  transform: scale(0.97);*/
-/*}*/
-
-/*.exit-no:hover,*/
-/*.exit-no:active,*/
-/*.exit-no:focus-visible {*/
-/*  box-shadow: 0 0 0 2px #ffffff;*/
-/*  transform: scale(0.97);*/
-/*}*/
-
 
 .exit-yes,
 .exit-no {
@@ -695,7 +651,6 @@ button.primary:hover { transform: scale(1.05);
 
 .difficulty-screen {
   position: relative;
-  /*width: 100%;*/
   width: 100vw;
   height: 100vh;
   overflow: hidden;
@@ -722,7 +677,7 @@ button.primary:hover { transform: scale(1.05);
 .difficulty-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(220, 220, 220, 0.75); /* 👈 was too opaque before */
+  background: rgba(220, 220, 220, 0.75); 
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -814,7 +769,7 @@ button.primary:hover { transform: scale(1.05);
   max-width: 420px;
   margin: auto;
   top: 50%;
-  transform: translateY(-50%);
+  transform: translateY(-350px);
   text-align: center;
   box-shadow: 0 12px 40px rgba(0,0,0,0.35);
 }
