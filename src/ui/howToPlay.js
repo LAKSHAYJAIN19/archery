@@ -27,12 +27,6 @@ export function renderHowToPlayScreen(container) {
     </div>
   `;
 
-  // const goMain = container.querySelector('#goMainBtn');
-  // if (goMain) {
-  //   goMain.addEventListener('click', () => {
-  //     container.dispatchEvent(new CustomEvent('navigateMain'));
-  //   });
-  // }
 
   container.querySelector('#goMainBtn')
       ?.addEventListener('click', () => {
