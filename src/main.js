@@ -5,6 +5,7 @@ import { renderHowToPlayScreen } from './ui/howToPlay'
 import { setupAdaptiveBackground } from './bg/adaptiveBackground'
 import { setupExitButton } from './ui/exitButton'
 import { DifficultyScreen } from './ui/DifficultyScreen'
+import { renderGameScreen } from './ui/GameScreen';
 
 
 const app = document.getElementById('app');
@@ -24,13 +25,10 @@ app.addEventListener('navigateDifficulty', () => {
   DifficultyScreen(app)
 })
 
-// app.addEventListener('navigateMain', () => {
-//   renderMainScreen();
-// });
-//
-// app.addEventListener('navigateDifficulty', () => {
-//   DifficultyScreen(app);
-// });
+app.addEventListener('navigateGame', (e) => {
+  renderGameScreen(app, e.detail.level);
+});
+
 
 function renderMainScreen() {
   const selectedImagePath = getImageForDevice();
@@ -127,10 +125,6 @@ function renderMainScreen() {
   // Setup adaptive background for the selected image
   setupAdaptiveBackground(selectedImagePath, selectedImageFile);
 
-  // When instructions screen requests going back, re-render main
-  // app.addEventListener('navigateMain', () => {
-  //   renderMainScreen();
-  // });
 }
 
 // initial render
