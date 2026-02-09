@@ -491,8 +491,8 @@ button.primary:hover { transform: scale(1.05);
   left: 50%;
   transform: translateX(-50%);
 
-  width: calc(100% - 48px);  
-  max-width: 360px;           
+  width: calc(100% - 48px);   /* 👈 constrained width */
+  max-width: 360px;           /* 👈 desktop clamp */
 
   height: 44px;
   padding: 0 16px;
@@ -522,6 +522,7 @@ button.primary:hover { transform: scale(1.05);
 }
 .exit-modal-content h3 { margin: 0 0 0.5rem 0; }
 .exit-modal-actions { display: flex; gap: 0.5rem; justify-content: center; margin-top: 0.5rem; }
+
 
 .exit-yes,
 .exit-no {
@@ -651,6 +652,7 @@ button.primary:hover { transform: scale(1.05);
 
 .difficulty-screen {
   position: relative;
+  /*width: 100%;*/
   width: 100vw;
   height: 100vh;
   overflow: hidden;
@@ -677,7 +679,7 @@ button.primary:hover { transform: scale(1.05);
 .difficulty-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(220, 220, 220, 0.75); 
+  background: rgba(220, 220, 220, 0.75); /* 👈 was too opaque before */
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -779,6 +781,157 @@ button.primary:hover { transform: scale(1.05);
   height: 100%;
   display: flex;
   flex-direction: column;
+  align-items: center;
+}
+
+.game-screen {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.game-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  z-index: 0;
+}
+
+.game-overlay {
+  position: absolute;
+  z-index: 2;
+  inset:0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  pointer-events: auto; /*none to auto */
+  background: rgba(0, 0, 0, 0.35);
+  color: #fff;
+
+  padding: 24px 16px;
+  box-sizing: border-box;
+}
+
+.game-overlay h2 {
+  margin-top: 20px;
+  margin-bottom: 0;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 1px;
+
+  color: #fff;
+  text-align: center;
+
+  pointer-events: none;
+}
+
+.game-heading {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 0;
+}
+
+
+.game-overlay .buttons {
+  margin-top: auto;   /* 🔥 pushes it down */
+  margin-bottom: 12px;
+}
+
+
+/* Thumb styling (optional but recommended) */
+.speed-control input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 22px;
+  height: 22px;
+  background: #ffffff;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.speed-control input[type="range"]::-moz-range-thumb {
+  width: 22px;
+  height: 22px;
+  background: #ffffff;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+/* Track */
+.speed-control input[type="range"]::-webkit-slider-runnable-track {
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 4px;
+}
+
+.speed-control input[type="range"]::-moz-range-track {
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 4px;
+}
+#exitGameBtn {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  width: calc(100% - 48px);
+  max-width: 320px;
+  height: 44px;
+
+  pointer-events: auto; /* Ensure the button is clickable */
+}
+
+
+.speed-slider {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%) rotate(-90deg);
+  /*width: 220px;*/
+  width: 240px;
+  height: 6px;
+
+  appearance: none;
+  background: rgba(255,255,255,0.4);
+  border-radius: 10px;
+
+  pointer-events: auto;
+}
+
+/* Thumb */
+.speed-slider::-webkit-slider-thumb {
+  appearance: none;
+  width: 22px;
+  height: 22px;
+  background: #fff;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.speed-slider::-moz-range-thumb {
+  width: 22px;
+  height: 22px;
+  background: #fff;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.level-easy .speed-slider,
+.level-medium .speed-slider {
+  right: -90px;
+}
+
+.level-hard .speed-slider,
+.level-expert .speed-slider {
+  left: -90px;
+}
+
+
+.debug-dot {
+  display: none;
 }
 
 
