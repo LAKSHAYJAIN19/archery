@@ -669,7 +669,7 @@ button.primary:hover { transform: scale(1.05);
   inset:0;
   filter: brightness(0.85);
   z-index: 0;
-  background-repeat: no-repeat ; //new line
+  background-repeat: no-repeat ; 
 }
 
 .difficulty-overlay {
@@ -868,18 +868,7 @@ button.primary:hover { transform: scale(1.05);
   background: rgba(255, 255, 255, 0.5);
   border-radius: 4px;
 }
-/*#exitGameBtn {*/
-/*  position: absolute;*/
-/*  bottom: 16px;*/
-/*  left: 50%;*/
-/*  transform: translateX(-50%);*/
 
-/*  width: calc(100% - 48px);*/
-/*  max-width: 320px;*/
-/*  height: 44px;*/
-
-/*  pointer-events: auto; !* Ensure the button is clickable *!*/
-/*}*/
 
 
 .speed-slider {
@@ -1060,7 +1049,7 @@ button.primary:hover { transform: scale(1.05);
 /* ================= FIX BUTTON OVERLAP ================= */
 
 .bottom-actions {
-  margin-top: auto;      /* 🔥 pushes buttons to bottom */
+  margin-top: auto;      /* pushes buttons to bottom */
   padding-bottom: 12px;
 
   width: 100%;
