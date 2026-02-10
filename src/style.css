@@ -872,18 +872,18 @@ button.primary:hover { transform: scale(1.05);
   background: rgba(255, 255, 255, 0.5);
   border-radius: 4px;
 }
-#exitGameBtn {
-  position: absolute;
-  bottom: 16px;
-  left: 50%;
-  transform: translateX(-50%);
+/*#exitGameBtn {*/
+/*  position: absolute;*/
+/*  bottom: 16px;*/
+/*  left: 50%;*/
+/*  transform: translateX(-50%);*/
 
-  width: calc(100% - 48px);
-  max-width: 320px;
-  height: 44px;
+/*  width: calc(100% - 48px);*/
+/*  max-width: 320px;*/
+/*  height: 44px;*/
 
-  pointer-events: auto; /* Ensure the button is clickable */
-}
+/*  pointer-events: auto; !* Ensure the button is clickable *!*/
+/*}*/
 
 
 .speed-slider {
@@ -933,5 +933,181 @@ button.primary:hover { transform: scale(1.05);
 .debug-dot {
   display: none;
 }
+
+.score-screen {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.score-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 0;
+}
+
+.score-overlay {
+  /*position: relative;*/
+  /*z-index: 1;*/
+  /*height: 100%;*/
+  /*display: flex;*/
+  /*flex-direction: column;*/
+  /*justify-content: center;*/
+  /*align-items: center;*/
+  /*text-align: center;*/
+  /*padding: 20px;*/
+  /*color: #fff;*/
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.score-message {
+  font-size: 18px;
+  margin: 12px 0 24px;
+}
+.score-overlay h2 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.score-overlay p {
+  font-size: 1.1rem;
+  margin-bottom: 24px;
+}
+/* Glass-style card */
+.score-card {
+  background: rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(6px);
+  border-radius: 18px;
+  padding: 24px 20px;
+  max-width: 320px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+}
+
+.score-card h2 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+  color: #ffffff;
+  text-shadow: 0 2px 6px rgba(0,0,0,0.8);
+}
+
+.score-card p {
+  font-size: 1.1rem;
+  margin-bottom: 22px;
+  color: #f1f1f1;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.7);
+}
+
+.score-card button {
+  width: 100%;
+  max-width: 240px;
+}
+
+/* ===== Shoot confirmation modal ===== */
+.shoot-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 9999; /* 🔥 VERY IMPORTANT */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.shoot-modal.hidden {
+  display: none;
+}
+
+.shoot-box {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 14px;
+  width: 85%;
+  max-width: 300px;
+  text-align: center;
+  color: #1a1a1a;
+}
+#shootText {
+  font-size: 15px;
+  font-weight: 500;
+  margin-bottom: 12px;
+}
+
+
+.shoot-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.shoot-actions button {
+  flex: 1;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.shoot-actions .yes {
+  background: #22c55e;
+  color: #fff;
+}
+
+.shoot-actions .no {
+  background: #ef4444;
+  color: #fff;
+}
+
+/* ================= FIX BUTTON OVERLAP ================= */
+
+.bottom-actions {
+  margin-top: auto;      /* 🔥 pushes buttons to bottom */
+  padding-bottom: 12px;
+
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+
+  z-index: 10;
+}
+
+.bottom-actions button {
+  position: static !important;
+
+  width: 100%;
+  max-width: 260px;   /* not too large */
+  height: 44px;
+
+  font-size: 15px;
+  border-radius: 12px;
+  margin: 0;
+}
+
+.shoot-btn {
+  font-weight: 600;
+}
+
+.exit-btn {
+  opacity: 0.9;
+  font-size: 14px;
+}
+
+
+
 
 
