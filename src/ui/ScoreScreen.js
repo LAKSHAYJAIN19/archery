@@ -24,14 +24,21 @@ export function renderScoreScreen(container, score) {
           <div class="score-card">
           <h2>Your Score: ${score}</h2>
           <p>${message}</p>
-
-          <button id="backToMain" class="primary">
-            Back to Main Menu
-          </button>
+          <div class="score-buttons">
+              <button id="playAgainBtn" class="primary">Play Again</button>  
+              <button id="backToMain" class="primary">
+                Back to Main Menu
+              </button>
+          </div>  
           </div>
         </div>
       </div>
     `;
+
+    container.querySelector('#playAgainBtn')
+        ?.addEventListener('click', () => {
+            container.dispatchEvent(new CustomEvent('navigateDifficulty'));
+        });
 
     container.querySelector('#backToMain').addEventListener('click', () => {
         container.dispatchEvent(new CustomEvent('navigateMain'));
