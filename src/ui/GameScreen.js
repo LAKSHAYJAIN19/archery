@@ -33,9 +33,26 @@ export function renderGameScreen(container, level) {
           class="speed-slider ${level}"
         />   
 
-        <button id="exitGameBtn" class="primary">
-          Exit to main
-        </button>
+        <div class="bottom-actions">
+            <button id="shootBtn" class="primary shoot-btn">
+              Shoot
+            </button>
+            
+            <button id="exitGameBtn" class="primary exit-btn">
+              Exit to main
+            </button>
+        </div>
+      </div>
+      
+      <!-- CONFIRMATION MODAL -->
+      <div id="shootModal" class="shoot-modal hidden">
+        <div class="shoot-box">
+          <p id="shootText"></p>
+          <div class="shoot-actions">
+            <button id="shootYes" class="yes">Yes</button>
+            <button id="shootNo" class="no">No</button>
+          </div>
+        </div>
       </div>
     </div>
   `;
@@ -45,52 +62,49 @@ export function renderGameScreen(container, level) {
     exitBtn.addEventListener('click', () => {
         container.dispatchEvent(new CustomEvent('navigateMain'));
     });
-
-    /* ================= SLIDER ================= */
-    const speedSlider = container.querySelector('#speedSlider');
-
-    speedSlider.addEventListener('input', (e) => {
+    const slider = container.querySelector('#speedSlider');
+    slider.addEventListener('input', e => {
         arrowSpeed = Number(e.target.value);
+    });
 
-        // Calculate score silently (do not display)
+    /* ================= SHOOT FLOW ================= */
+    const shootBtn = container.querySelector('#shootBtn');
+    const modal = container.querySelector('#shootModal');
+    const shootText = container.querySelector('#shootText');
+
+    shootBtn.addEventListener('click', () => {
+        shootText.textContent =
+            `The speed of the arrow is ${arrowSpeed} m/s, do you want to shoot?`;
+
+        modal.classList.remove('hidden');
+    });
+
+    container.querySelector('#shootNo').addEventListener('click', () => {
+        modal.classList.add('hidden');
+        slider.value = 1;
+        arrowSpeed = 1;
+    });
+
+    container.querySelector('#shootYes').addEventListener('click', () => {
+        modal.classList.add('hidden');
+
         const score = calculateShotScore(arrowSpeed, windStrength);
 
-        // For ,now we just keep it internally
-        console.log({
-            level,
-            arrowSpeed,
-            windStrength,
-            score,
-        });
+        container.dispatchEvent(
+            new CustomEvent('navigateScore', {
+                detail: {score}
+            })
+        );
     });
+
 }
 
-/* ================= GAME LOGIC ================= */
-
-/**
- * Calculates shot accuracy score (1–10)
- * based on arrow speed and wind
- */
 function calculateShotScore(speed, wind) {
-    /**
-     * Ideal speed counters wind:
-     * Higher wind → needs higher speed
-     */
     const idealSpeed = wind * 2;
-
-    // Difference from ideal
     const error = Math.abs(speed - idealSpeed);
 
-    /**
-     * Convert error into score
-     * Small error → high score
-     */
     let score = Math.round(10 - error / 2);
-
-    // Clamp between 1 and 10
     score = Math.max(1, Math.min(10, score));
 
     return score;
 }
-
-
