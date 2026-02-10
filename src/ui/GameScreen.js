@@ -1,3 +1,4 @@
+import {playShootVideo} from "./playshootvideo.js";
 
 export function renderGameScreen(container, level) {
     const bgMap = {
@@ -38,7 +39,7 @@ export function renderGameScreen(container, level) {
               Shoot
             </button>
             
-            <button id="exitGameBtn" class="primary exit-btn">
+            <button id="exitGameBtn" class="primary exit-main-btn">
               Exit to main
             </button>
         </div>
@@ -85,18 +86,37 @@ export function renderGameScreen(container, level) {
         arrowSpeed = 1;
     });
 
-    container.querySelector('#shootYes').addEventListener('click', () => {
+    // container.querySelector('#shootYes').addEventListener('click', () => {
+    //     modal.classList.add('hidden');
+    //
+    //     const score = calculateShotScore(arrowSpeed, windStrength);
+    //
+    //     container.dispatchEvent(
+    //         new CustomEvent('navigateScore', {
+    //             detail: {score}
+    //         })
+    //     );
+    // });
+
+    const gameScreen = container.querySelector('.game-screen');
+    container.querySelector('#shootYes').addEventListener('click', async () => {
         modal.classList.add('hidden');
+
+        // Optional fade out game UI
+        const gameScreen = container.querySelector('.game-screen');
+        gameScreen.style.transition = 'opacity 0.3s ease';
+        gameScreen.style.opacity = '0';
+
+        await playShootVideo(container, level); // 🎥 video plays fully
 
         const score = calculateShotScore(arrowSpeed, windStrength);
 
         container.dispatchEvent(
             new CustomEvent('navigateScore', {
-                detail: {score}
+                detail: { score }
             })
         );
     });
-
 }
 
 function calculateShotScore(speed, wind) {
