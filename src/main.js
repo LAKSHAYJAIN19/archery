@@ -6,7 +6,7 @@ import { setupAdaptiveBackground } from './bg/adaptiveBackground'
 import { setupExitButton } from './ui/exitButton'
 import { DifficultyScreen } from './ui/DifficultyScreen'
 import { renderGameScreen } from './ui/GameScreen';
-
+import { renderScoreScreen } from './ui/ScoreScreen';
 
 const app = document.getElementById('app');
 
@@ -29,6 +29,9 @@ app.addEventListener('navigateGame', (e) => {
   renderGameScreen(app, e.detail.level);
 });
 
+app.addEventListener('navigateScore', (e) => {
+  renderScoreScreen(app, e.detail.score)
+})
 
 function renderMainScreen() {
   const selectedImagePath = getImageForDevice();
