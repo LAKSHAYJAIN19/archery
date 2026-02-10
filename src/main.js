@@ -3,7 +3,6 @@ import getImageForDevice from './utils/getImageForDevice'
 import { createSettingsModalHTML } from './ui/settingsModal'
 import { renderHowToPlayScreen } from './ui/howToPlay'
 import { setupAdaptiveBackground } from './bg/adaptiveBackground'
-import { setupExitButton } from './ui/exitButton'
 import { DifficultyScreen } from './ui/DifficultyScreen'
 import { renderGameScreen } from './ui/GameScreen';
 import { renderScoreScreen } from './ui/ScoreScreen';
@@ -33,11 +32,11 @@ app.addEventListener('navigateScore', (e) => {
   renderScoreScreen(app, e.detail.score)
 })
 
-function renderMainScreen() {
+function renderMainScreen(container) {
   const selectedImagePath = getImageForDevice();
   const selectedImageFile = selectedImagePath.split('/').pop();
 
-  app.innerHTML = `
+  container.innerHTML = `
     <div class="main-screen">
       <div class="bg" aria-hidden="true">
         <img class="bg-image" src="${selectedImagePath}" alt="background" />
@@ -49,22 +48,64 @@ function renderMainScreen() {
           <button id="settingsBtn">Settings</button>
         </div>
       </div>
+      <button id="exitBtn" class="exit-btn">Exit</button>
     </div>
+    
+    <!-- EXIT CONFIRMATION MODAL -->
+    <div id="exitModal" class="shoot-modal hidden">
+    <div class="shoot-box">
+      <p>Are you sure?</p>
+      <div class="shoot-actions">
+        <button id="exitYes" class="no">Yes</button>
+        <button id="exitNo" class="yes">No</button>
+      </div>
+    </div>
+  </div>
     ${createSettingsModalHTML()}
   `;
+
+
+
+  const exitBtn = document.getElementById('exitBtn');
+  const exitModal = document.getElementById('exitModal');
+
+  exitBtn.addEventListener('click', () => {
+    exitModal.classList.remove('hidden');
+  });
+
+  document.getElementById('exitNo').addEventListener('click', () => {
+    exitModal.classList.add('hidden');
+  });
+
+  document.getElementById('exitYes').addEventListener('click', () => {
+    exitModal.classList.add('hidden');
+
+    // Hybrid apps (Capacitor / Cordova)
+    try {
+      if (navigator?.app?.exitApp) {
+        navigator.app.exitApp();
+        return;
+      }
+    } catch (e) {}
+
+    // Browser fallback
+    try {
+      window.open('', '_self');
+      window.close();
+    } catch (e) {
+      // last fallback
+      location.href = 'about:blank';
+    }
+  });
 
   // Hook up UI actions
   const howBtn = document.getElementById('howBtn');
   const settingsBtn = document.getElementById('settingsBtn');
 
-  // Prepare exit button and keep cleanup handle
-  const cleanupExit = setupExitButton();
-
   howBtn.addEventListener('click', () => {
-    // remove exit UI when navigating away from main
-    try { if (typeof cleanupExit === 'function') cleanupExit(); } catch (e) {}
-    renderHowToPlayScreen(app);
+    app.dispatchEvent(new CustomEvent('navigateHowTo'));
   });
+
 
   // Show/hide helpers that manage focus and inert state to avoid aria-hidden on focused elements
   function showSettingsModal() {
@@ -131,4 +172,4 @@ function renderMainScreen() {
 }
 
 // initial render
-renderMainScreen();
+renderMainScreen(app);
